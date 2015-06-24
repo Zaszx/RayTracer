@@ -23,13 +23,14 @@ public:
 
 private:
 
-	Vec3 traceRay(const Ray& ray, const Camera& camera) const;
+	Vec3 traceRay(const Ray& ray, const Camera& camera, int depth = 0) const;
 
 	vector<Object*> objects;
 	vector<Light*> lights;
 
 	Vec3 backgroundColor;
 	Vec3 ambientLightColor;
+	int reflectionCount;
 
 };
 
