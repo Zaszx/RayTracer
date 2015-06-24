@@ -4,26 +4,22 @@
 #include <iostream>
 #include <math.h>
 using namespace std;
-zglSphere::zglSphere(Vec3 coords, float range):Object()
+Sphere::Sphere(Vec3 coords, float range):Object()
 {
 	this->coords = coords;
 	this->range = range;
-	
-	
 }
 
 
-bool zglSphere::intersects(const Ray& ray, float& distance, Vec3& point)
+bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 {
-	//cout<<"FSJDAIOGLHFADNJGKLRSANGF "<<ray.origin.x<<" "<<ray.origin.y<<" "<<ray.origin.z<<" DEST: "<<ray.destination.x<<" "<<ray.destination.y<<" "<<ray.destination.z<<endl;
-	
 	Vec3 d,e,c;
 	e = ray.origin;
 	d.x = ray.destination.x - ray.origin.x;
 	d.y = ray.destination.y - ray.origin.y;
 	d.z = ray.destination.z - ray.origin.z;
 	d.normalize();
-	//cout<<"DIRECTION: "<<d.x<<" "<<d.y<<" "<<d.z<<endl;
+
 	c = coords;
 	float first = (d.dot(e-c)) * (d.dot(e-c));
 	float second = (d.dot(d));
@@ -35,7 +31,6 @@ bool zglSphere::intersects(const Ray& ray, float& distance, Vec3& point)
 	}
 	else
 	{
-		//cout<<"SUCCESS"<<endl;
 		float solutions[2];
 		solutions[0] = ((d * -1).dot(e-c) + sqrt(disc)) / d.dot(d);
 		solutions[1] = ((d * -1).dot(e-c) - sqrt(disc)) / d.dot(d);
@@ -62,6 +57,9 @@ bool zglSphere::intersects(const Ray& ray, float& distance, Vec3& point)
 			normal.normalize();
 			return true;
 		}
-		else return false;
+		else
+		{
+			return false;
+		}
 	}
 }

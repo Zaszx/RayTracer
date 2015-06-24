@@ -51,7 +51,7 @@ Material* getMaterial(int index)
 void readScene()
 {
 	char temp[256];
-	zglSphere* sphere;
+	Sphere* sphere;
 	Triangle* triangle;
 	Material* material;
 	Light* light;
@@ -75,7 +75,7 @@ void readScene()
 		}
 		else if(!strcmp(temp, "#sphere"))
 		{
-			sphere = new zglSphere();
+			sphere = new Sphere();
 			fscanf(in, " %f %f %f", &sphere->coords.x, &sphere->coords.y, &sphere->coords.z);
 			fscanf(in, " %f %d", &sphere->range, &sphere->materialIndex);
 			objects.push_back(sphere);
