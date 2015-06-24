@@ -1,20 +1,9 @@
-#include "Object.h"
+#include "CommonIncludes.h"
 #include "Triangle.h"
-#include "Vec3.h"
+
 
 Triangle::Triangle()
 {
-}
-
-Triangle::Triangle(Vec3 coords1, Vec3 coords2, Vec3 coords3):Object()
-{
-	this->coords[0] = coords1;
-	this->coords[1] = coords2;
-	this->coords[2] = coords3;
-	Vec3 edge1 = coords[1] - coords[0];
-	Vec3 edge2 = coords[2] - coords[1];
-	normal = edge1.cross(edge2);
-	normal.normalize();
 }
 
 bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
@@ -56,4 +45,32 @@ bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
 	normal = edge1.cross(edge2);
 	normal.normalize();
 	return true;
+}
+
+void Triangle::read(TiXmlNode* node)
+{
+	TiXMLHelper::GetAttribute(node, "materialName", &materialName);
+	TiXmlNode* vertexInfosNode = node->FirstChild("vertexInfos");
+	assert(vertexInfosNode);
+
+	TiXmlNode* vertexInfoNode = vertexInfosNode->FirstChild("vertexInfo");
+	int vertexIndex = 0;
+	while (vertexInfoNode)
+	{
+		TiXMLHelper::GetAttribute(vertexInfoNode, "position", &coords[vertexIndex]);
+
+		vertexIndex++;
+		vertexInfoNode = vertexInfoNode->NextSibling();
+	}
+	assert(vertexIndex == 3);
+
+	recomputeNormal();
+}
+
+void Triangle::recomputeNormal()
+{
+	Vec3 edge1 = coords[1] - coords[0];
+	Vec3 edge2 = coords[2] - coords[1];
+	normal = edge1.cross(edge2);
+	normal.normalize();
 }

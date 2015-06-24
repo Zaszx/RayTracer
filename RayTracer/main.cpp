@@ -14,18 +14,14 @@
 #include "Ray.h"
 #include <math.h>
 #include "TinyXML/tinyxml.h"
+
+#include "Light.h"
+
 using namespace std;
 
 const string defaultSceneXMLPath = "Resources/scene.xml";
 const string defaultMaterialXMLPath = "Resources/materials.xml";
 const string defaultCameraXMLPath = "Resources/cameras.xml";
-
-class Light
-{
-	public:
-	Vec3 position;
-	Vec3 intensity;
-};
 
 string sceneFileName;
 
@@ -83,8 +79,8 @@ void readScene()
 		else if(!strcmp(temp, "#sphere"))
 		{
 			sphere = new Sphere();
-			fscanf(in, " %f %f %f", &sphere->coords.x, &sphere->coords.y, &sphere->coords.z);
-			fscanf(in, " %f %d", &sphere->range, &sphere->materialIndex);
+			fscanf(in, " %f %f %f", &sphere->position.x, &sphere->position.y, &sphere->position.z);
+			fscanf(in, " %f %d", &sphere->radius, &sphere->materialIndex);
 			objects.push_back(sphere);
 			continue;
 		}

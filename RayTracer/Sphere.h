@@ -5,16 +5,19 @@
 class Object;
 class Vec3;
 class Ray;
+class TiXmlNode;
 
 class Sphere: public Object
 {
-	public:
-	Sphere(Vec3 coords, float range);
-	Sphere(){}
+public:
+	Sphere();
 	virtual bool intersects(const Ray& ray, float& distance, Vec3& point);
-	Vec3 coords;
-	float range;
-	protected:
+	void read(TiXmlNode* node);
+	
+	Vec3 position;
+	float radius;
+
+protected:
 	
 	
 };

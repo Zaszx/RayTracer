@@ -1,22 +1,30 @@
 <scene backgrondColor = "60 60 60" ambientLight = "60 60 60">
-	<triangle materialName = "Material1">
-		<vertexInfos>
-			<vertexInfo position = "0 100 100" />
-			<vertexInfo position = "-50 -50 0" />
-			<vertexInfo position = "50 -50 0" />
-		</vertexInfos>
-	</triangle>
-	<triangle materialName = "Material1">
-		<vertexInfos>
-			<vertexInfo position = "200 300 200" />
-			<vertexInfo position = "300 200 300" />
-			<vertexInfo position = "350 250 150" />
-		</vertexInfos>
-	</triangle>
-	<sphere materialName = "Material5" position = "200 0 -100" radius = "100" />
-	<sphere materialName = "Material2" position = "0 100 100" radius = "100" />
-	<sphere materialName = "Material1" position = "-200 200 150" radius = "100" />
-	<sphere materialName = "Material4" position = "-200 -200 150" radius = "100" />
-	<sphere materialName = "Material3" position = "250 -300 100" radius = "100" />
-	<light position = "0 -300 500" color = "100 100 100" />
+	<objects>
+		<triangles>
+			<triangle materialName = "Material1">
+				<vertexInfos>
+					<vertexInfo position = "0 100 100" />
+					<vertexInfo position = "-50 -50 0" />
+					<vertexInfo position = "50 -50 0" />
+				</vertexInfos>
+			</triangle>
+			<triangle materialName = "Material1">
+				<vertexInfos>
+					<vertexInfo position = "200 300 200" />
+					<vertexInfo position = "300 200 300" />
+					<vertexInfo position = "350 250 150" />
+				</vertexInfos>
+			</triangle>
+		</triangles>
+		<spheres>
+			<sphere materialName = "Material5" position = "200 0 -100" radius = "100" />
+			<sphere materialName = "Material2" position = "0 100 100" radius = "100" />
+			<sphere materialName = "Material1" position = "-200 200 150" radius = "100" />
+			<sphere materialName = "Material4" position = "-200 -200 150" radius = "100" />
+			<sphere materialName = "Material3" position = "250 -300 100" radius = "100" />
+		</spheres>
+	</objects>
+	<lights>
+		<light position = "0 -300 500" intensity = "100 100 100" />
+	</lights>
 </scene>

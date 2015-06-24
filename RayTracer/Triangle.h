@@ -2,18 +2,20 @@
 #define __TRIANGLE__H
 #include "Vec3.h"
 #include "Ray.h"
-class Object;
+#include "Object.h"
+
+class TiXmlNode;
 
 class Triangle: public Object
 {
 public:
-	Triangle(Vec3 coords1, Vec3 coords2, Vec3 coords3);
 	Triangle();
 	virtual bool intersects(const Ray& ray, float& distance, Vec3& point);
+	void read(TiXmlNode* node);
 	Vec3 coords[3];
-	float range;
+
+	void recomputeNormal();
 protected:
-	
 	
 };
 

@@ -3,5 +3,5 @@
 
 Object::Object()
 {
-
+	material = nullptr;
 }

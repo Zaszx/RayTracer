@@ -1,15 +1,5 @@
-#include "Object.h"
+#include "CommonIncludes.h"
 #include "Sphere.h"
-#include "Vec3.h"
-#include <iostream>
-#include <math.h>
-using namespace std;
-Sphere::Sphere(Vec3 coords, float range):Object()
-{
-	this->coords = coords;
-	this->range = range;
-}
-
 
 bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 {
@@ -20,10 +10,10 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 	d.z = ray.destination.z - ray.origin.z;
 	d.normalize();
 
-	c = coords;
+	c = position;
 	float first = (d.dot(e-c)) * (d.dot(e-c));
 	float second = (d.dot(d));
-	float third = (e-c).dot(e-c) - (range*range);
+	float third = (e-c).dot(e-c) - (radius*radius);
 	float disc = (first - (second*third));
 	if( disc < 0)
 	{
@@ -44,7 +34,7 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 			distance = solutions[0];
 			Vec3 iteration(distance*dir.x, distance*dir.y, distance*dir.z);
 			point = Vec3(ray.origin.x + iteration.x, ray.origin.y + iteration.y, ray.origin.z + iteration.z) ;
-			normal = point - coords;
+			normal = point - position;
 			normal.normalize();
 			return true;
 		}
@@ -53,7 +43,7 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 			distance = solutions[1];
 			Vec3 iteration(distance*dir.x, distance*dir.y, distance*dir.z);
 			point = Vec3(ray.origin.x + iteration.x, ray.origin.y + iteration.y, ray.origin.z + iteration.z) ;
-			normal = point - coords;
+			normal = point - position;
 			normal.normalize();
 			return true;
 		}
@@ -62,4 +52,16 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 			return false;
 		}
 	}
+}
+
+Sphere::Sphere()
+{
+	
+}
+
+void Sphere::read(TiXmlNode* node)
+{
+	TiXMLHelper::GetAttribute(node, "position", &position);
+	TiXMLHelper::GetAttribute(node, "radius", &radius);
+	TiXMLHelper::GetAttribute(node, "materialName", &materialName);
 }
