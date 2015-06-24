@@ -63,5 +63,7 @@ void Sphere::read(TiXmlNode* node)
 {
 	TiXMLHelper::GetAttribute(node, "position", &position);
 	TiXMLHelper::GetAttribute(node, "radius", &radius);
+	String materialName;
 	TiXMLHelper::GetAttribute(node, "materialName", &materialName);
+	material = resourceManager.getMaterial(materialName);
 }

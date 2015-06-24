@@ -14,6 +14,7 @@
 #include "TiXMLHelper.h"
 #include "String.h"
 #include "Material.h"
+#include "ResourceManager.h"
 
 #include "TinyXML/tinyxml.h"
 

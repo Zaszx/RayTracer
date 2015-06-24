@@ -1,13 +1,18 @@
 #ifndef __MATERIAL__H
 #define __MATERIAL__H
 #include "Vec3.h"
-
+#include "String.h"
+class TiXmlNode;
 
 class Material
 {
 public:
 	Material(int index);
 	Material(){}
+
+	String name;
+	void read(TiXmlNode* node);
+
 	int index;
 	Vec3 ambient;
 	Vec3 diffuse;

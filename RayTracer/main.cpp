@@ -19,6 +19,8 @@ Vec3 ambientLight;
 string outputFileName;
 FILE *in,*out;
 
+ResourceManager resourceManager;
+
 Vec3 screen[5000][5000];
 
 Material* getMaterial(int index)
@@ -129,6 +131,8 @@ void readCamera()
 
 int main()
 {
+	resourceManager.readMaterials(defaultMaterialXMLPath);
+
 	Scene scene;
 	scene.read(defaultSceneXMLPath);
 

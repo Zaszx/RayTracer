@@ -49,7 +49,10 @@ bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
 
 void Triangle::read(TiXmlNode* node)
 {
+	String materialName;
 	TiXMLHelper::GetAttribute(node, "materialName", &materialName);
+	material = resourceManager.getMaterial(materialName);
+
 	TiXmlNode* vertexInfosNode = node->FirstChild("vertexInfos");
 	assert(vertexInfosNode);
 
