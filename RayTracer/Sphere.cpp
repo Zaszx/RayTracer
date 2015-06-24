@@ -4,11 +4,8 @@
 bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 {
 	Vec3 d,e,c;
-	e = ray.origin;
-	d.x = ray.destination.x - ray.origin.x;
-	d.y = ray.destination.y - ray.origin.y;
-	d.z = ray.destination.z - ray.origin.z;
-	d.normalize();
+	e = ray.getOrigin();
+	d = ray.getDirection();
 
 	c = position;
 	float first = (d.dot(e-c)) * (d.dot(e-c));
@@ -24,16 +21,12 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 		float solutions[2];
 		solutions[0] = ((d * -1).dot(e-c) + sqrt(disc)) / d.dot(d);
 		solutions[1] = ((d * -1).dot(e-c) - sqrt(disc)) / d.dot(d);
-		Vec3 dir;
-		dir.x = ray.destination.x - ray.origin.x;
-		dir.y = ray.destination.y - ray.origin.y;
-		dir.z = ray.destination.z - ray.origin.z;
-		dir.normalize();
+		Vec3 dir = ray.getDirection();
 		if(solutions[0] >= 0 && solutions[0] < solutions[1])
 		{
 			distance = solutions[0];
 			Vec3 iteration(distance*dir.x, distance*dir.y, distance*dir.z);
-			point = Vec3(ray.origin.x + iteration.x, ray.origin.y + iteration.y, ray.origin.z + iteration.z) ;
+			point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
 			normal = point - position;
 			normal.normalize();
 			return true;
@@ -42,7 +35,7 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 		{
 			distance = solutions[1];
 			Vec3 iteration(distance*dir.x, distance*dir.y, distance*dir.z);
-			point = Vec3(ray.origin.x + iteration.x, ray.origin.y + iteration.y, ray.origin.z + iteration.z) ;
+			point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
 			normal = point - position;
 			normal.normalize();
 			return true;

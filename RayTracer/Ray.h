@@ -3,10 +3,18 @@
 
 class Ray
 {
-	public:
-	Ray(){}
+public:
+
+	Ray(Vec3 origin, Vec3 direction);
+
+	Vec3 getOrigin() const;
+	Vec3 getDirection() const;
+
+private:
+
 	Vec3 origin;
 	Vec3 destination;
+	Vec3 direction;
 };
 
 

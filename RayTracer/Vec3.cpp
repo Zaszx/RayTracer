@@ -10,7 +10,9 @@ Vec3::Vec3(float x,float y,float z)
 
 Vec3::Vec3()
 {
-	x=0;y=0;z=0;
+	x=0;
+	y=0;
+	z=0;
 }
 
 void Vec3::operator=(const Vec3& rhs)
@@ -42,6 +44,12 @@ Vec3 Vec3::operator*(const float& f) const
 {
 	Vec3 hebele(x*f, y*f, z*f);
 	return hebele;
+}
+
+Vec3 Vec3::operator*(const Vec3& rhs) const
+{
+	Vec3 value(x * rhs.x, y * rhs.y, z * rhs.z);
+	return value;
 }
 
 Vec3 Vec3::operator+(const Vec3& rhs) const

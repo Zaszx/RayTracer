@@ -78,86 +78,18 @@ void Scene::render(const Camera& camera, const String& outputFilePath) const
 	{
 		for (int j = 0; j < camera.imageHeight; j++)
 		{
-			Ray* ray = new Ray();
-			ray->origin = camera.pos;
 			Vec3 p = camera.pos + (camera.gaze * camera.distance);
-			float ununyataydakimiktari = (camera.left + ((camera.right - camera.left) / camera.imageWidth) * (i + 0.5));
+			float uIterationAmount = (camera.left + ((camera.right - camera.left) / camera.imageWidth) * (i + 0.5));
 			Vec3 u = camera.gaze.cross(camera.up);
 			u.normalize();
-			float vnindikeydekimiktari = (camera.bottom + ((camera.top - camera.bottom) / camera.imageHeight) * (j + 0.5));
-			ray->destination = p + (u * ununyataydakimiktari) + (camera.up * vnindikeydekimiktari);
-			float minDist = 10000000;
-			Object* nearest = NULL;
-			Vec3 nearestPoint;
-			for (int o = 0; o < objects.size(); o++)
-			{
-				float dist;
-				Vec3 point;
-				if (objects[o]->intersects(*ray, dist, point))
-				{
-					if (dist < minDist)
-					{
-						minDist = dist;
-						nearest = objects[o];
-						nearestPoint = point;
-					}
-				}
-			}
-			if (nearest)
-			{
-				Ray* lightRay;
-				for (int l = 0; l < lights.size(); l++)
-				{
-					lightRay = new Ray();
-					lightRay->origin = nearestPoint;
-					lightRay->destination = lights[l]->position;
-					Vec3 d;
-					d.x = lightRay->destination.x - lightRay->origin.x;
-					d.y = lightRay->destination.y - lightRay->origin.y;
-					d.z = lightRay->destination.z - lightRay->origin.z;
-					d.normalize();
-					nearest->normal.normalize();
-					float hebele = d.dot(nearest->normal);
-					hebele = hebele < 0 ? 0 : hebele;
+			float vIterationAmount = (camera.bottom + ((camera.top - camera.bottom) / camera.imageHeight) * (j + 0.5));
+			Vec3 rayDestination = p + (u * uIterationAmount) + (camera.up * vIterationAmount);
+			Vec3 rayDirection = rayDestination - camera.pos;
+			rayDirection.normalize();
 
-					float lol = hebele * lights[l]->intensity.x;
-					renderedPixels[i][j].x += nearest->material->diffuse.x * lol;
-
-					lol = hebele * lights[l]->intensity.y;
-					renderedPixels[i][j].y += nearest->material->diffuse.y * lol;
-
-					lol = hebele * lights[l]->intensity.x;
-					renderedPixels[i][j].z += nearest->material->diffuse.z * lol;
-
-					Vec3 pointToCamera = nearestPoint - camera.pos;
-					pointToCamera.normalize();
-					Vec3 h = pointToCamera + d;
-					h.normalize();
-					float ndoth = nearest->normal.dot(h);
-					if (ndoth < 0) ndoth = 0;
-					pow(ndoth, nearest->material->specExp);
-
-					lol = nearest->material->specular.x * lights[l]->intensity.x * ndoth;
-					renderedPixels[i][j].x += lol;
-
-					lol = nearest->material->specular.y * lights[l]->intensity.y * ndoth;
-					renderedPixels[i][j].y += lol;
-
-					lol = nearest->material->specular.z * lights[l]->intensity.z * ndoth;
-					renderedPixels[i][j].z += lol;
-
-					delete lightRay;
-				}
-
-
-				renderedPixels[i][j].x += nearest->material->ambient.x * ambientLightColor.x;
-				renderedPixels[i][j].y += nearest->material->ambient.y * ambientLightColor.y;
-				renderedPixels[i][j].z += nearest->material->ambient.z * ambientLightColor.z;
-			}
-			else
-			{
-				renderedPixels[i][j] = backgroundColor;
-			}
+			Ray ray(camera.pos, rayDirection);
+			Vec3 resultColor = traceRay(ray, camera);
+			renderedPixels[i][j] = resultColor;
 		}
 	}
 
@@ -176,4 +108,63 @@ void Scene::render(const Camera& camera, const String& outputFilePath) const
 	fprintf(out, "P6 %d %d %d\n", camera.imageWidth, camera.imageHeight, 255);
 	fwrite(toPPM, totalImageSize, 1, out);
 	fclose(out);
+}
+
+Vec3 Scene::traceRay(const Ray& ray, const Camera& camera) const
+{
+	Vec3 resultColor;
+
+	float minDist = FLT_MAX;
+	Object* nearest = nullptr;
+	Vec3 nearestPoint;
+	for (int o = 0; o < objects.size(); o++)
+	{
+		float dist;
+		Vec3 point;
+		if (objects[o]->intersects(ray, dist, point))
+		{
+			if (dist < minDist)
+			{
+				minDist = dist;
+				nearest = objects[o];
+				nearestPoint = point;
+			}
+		}
+	}
+	if (nearest)
+	{
+		for (int l = 0; l < lights.size(); l++)
+		{
+			Vec3 lightDirection = lights[l]->position - nearestPoint;
+			lightDirection.normalize();
+
+			Ray lightRay(nearestPoint, lightDirection);
+
+			// Diffuse Light
+			nearest->normal.normalize();
+			float ndotl = lightRay.getDirection().dot(nearest->normal);
+			ndotl = ndotl < 0 ? 0 : ndotl;
+
+			resultColor = resultColor + nearest->material->diffuse * lights[l]->intensity * ndotl;
+
+			// Specular Light
+			Vec3 pointToCamera = nearestPoint - camera.pos;
+			pointToCamera.normalize();
+			Vec3 h = pointToCamera + lightRay.getDirection();
+			h.normalize();
+			float ndoth = nearest->normal.dot(h);
+			if (ndoth < 0) ndoth = 0;
+			pow(ndoth, nearest->material->specExp);
+
+			resultColor = resultColor + nearest->material->specular * lights[l]->intensity * ndoth;
+		}
+
+		resultColor = resultColor + nearest->material->ambient * ambientLightColor;
+	}
+	else
+	{
+		resultColor = backgroundColor;
+	}
+
+	return resultColor;
 }

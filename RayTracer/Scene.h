@@ -23,6 +23,8 @@ public:
 
 private:
 
+	Vec3 traceRay(const Ray& ray, const Camera& camera) const;
+
 	vector<Object*> objects;
 	vector<Light*> lights;
 

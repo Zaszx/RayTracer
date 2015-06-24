@@ -9,6 +9,7 @@ class Vec3
 	Vec3();
 	void operator=(const Vec3& rhs);
 	Vec3 operator*(const float& f) const;
+	Vec3 operator*(const Vec3& rhs) const;
 	Vec3 operator+(const Vec3& rhs) const;
 	Vec3 operator-(const Vec3& rhs) const;
 	Vec3 cross(const Vec3& vect) const;

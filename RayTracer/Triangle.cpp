@@ -9,11 +9,7 @@ Triangle::Triangle()
 bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
 {
 	float a,b,c,d,e,f,g,h,i,j,k,l;
-	Vec3 dir;
-	dir.x = ray.destination.x - ray.origin.x;
-	dir.y = ray.destination.y - ray.origin.y;
-	dir.z = ray.destination.z - ray.origin.z;
-	dir.normalize();
+	Vec3 dir = ray.getDirection();
 	a = coords[0].x - coords[1].x;
 	b = coords[0].y - coords[1].y;
 	c = coords[0].z - coords[1].z;
@@ -23,9 +19,9 @@ bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
 	g = dir.x;
 	h = dir.y;
 	i = dir.z;
-	j = coords[0].x - ray.origin.x;
-	k = coords[0].y - ray.origin.y;
-	l = coords[0].z - ray.origin.z;
+	j = coords[0].x - ray.getOrigin().x;
+	k = coords[0].y - ray.getOrigin().y;
+	l = coords[0].z - ray.getOrigin().z;
 
 	float t, beta, gama, m;
 
@@ -35,7 +31,7 @@ bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
 	t = 0- (f*(a*k-j*b) + e*(j*c-a*l) + d*(b*l-k*c)) / m;
 	distance = t;
 	Vec3 iteration(t*dir.x, t*dir.y, t*dir.z);
-	point = Vec3(ray.origin.x + iteration.x, ray.origin.y + iteration.y, ray.origin.z + iteration.z);
+	point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
 	if(gama<=0 || gama>=1)
 		return false;
 	if(beta<=0 || beta>=1-gama)
