@@ -13,7 +13,12 @@
 #include "Triangle.h"
 #include "Ray.h"
 #include <math.h>
+#include "TinyXML/tinyxml.h"
 using namespace std;
+
+const string defaultSceneXMLPath = "Resources/scene.xml";
+const string defaultMaterialXMLPath = "Resources/materials.xml";
+const string defaultCameraXMLPath = "Resources/cameras.xml";
 
 class Light
 {
@@ -55,8 +60,10 @@ void readScene()
 	Triangle* triangle;
 	Material* material;
 	Light* light;
+	TiXmlAttribute s;
 	string whatNext;
 	fscanf(in, " %d", &rayReflectCount);
+	
 	while(fscanf(in, " %s ",temp) != EOF)
 	{
 		if(!strcmp(temp,"#material"))

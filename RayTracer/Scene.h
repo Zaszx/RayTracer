@@ -4,7 +4,7 @@
 class Scene
 {
 public:
-	Scene();
+	Scene(string xmlPath);
 	~Scene();
 
 private:

@@ -11,3 +11,7 @@
 *.idb
 *.log
 *.lastbuildstate
+*.cache
+*.bsc
+*.sbr
+*.user
