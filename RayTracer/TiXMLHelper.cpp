@@ -32,7 +32,7 @@ void TiXMLHelper::GetAttribute(TiXmlNode* node, char* attributeName, Vec3* value
 		}
 		else
 		{
-			buffer[bufferIndex] = valueString[i];
+			buffer[bufferIndex++] = valueString[i];
 		}
 	}
 	buffer[bufferIndex] = 0;

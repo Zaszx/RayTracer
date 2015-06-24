@@ -1,23 +1,4 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include "Object.h"
-#include "Vec3.h"
-#include "Sphere.h"
-#include <vector>
-#include <algorithm>
-#include <string>
-#include <string.h>
-#include "Camera.h"
-#include "Material.h"
-#include "Triangle.h"
-#include "Ray.h"
-#include <math.h>
-#include "TinyXML/tinyxml.h"
-
-#include "Light.h"
-
-using namespace std;
+#include "CommonIncludes.h"
 
 const string defaultSceneXMLPath = "Resources/scene.xml";
 const string defaultMaterialXMLPath = "Resources/materials.xml";
@@ -148,6 +129,10 @@ void readCamera()
 
 int main()
 {
+	Scene scene;
+	scene.read(defaultSceneXMLPath);
+
+
 	char temp[200];
 	printf("Name of the scene file?\n");
 	scanf(" %s",temp);

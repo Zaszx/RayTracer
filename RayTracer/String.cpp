@@ -36,13 +36,14 @@ String::String()
 
 String::String(const char* value)
 {
-	refreshBuffer(strlen(value)),
+	buffer = nullptr;
+	refreshBuffer(strlen(value));
 	strcpy(buffer, value);
 }
 
 String::~String()
 {
-	refreshBuffer(0);
+
 }
 
 void String::refreshBuffer(int length)

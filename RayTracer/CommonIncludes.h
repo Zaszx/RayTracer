@@ -13,6 +13,7 @@
 #include "Triangle.h"
 #include "TiXMLHelper.h"
 #include "String.h"
+#include "Material.h"
 
 #include "TinyXML/tinyxml.h"
 

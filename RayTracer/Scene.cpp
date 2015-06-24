@@ -40,7 +40,7 @@ void Scene::read(string xmlPath)
 		TiXmlNode* spheresNode = objectsNode->FirstChild("spheres");
 		if (spheresNode)
 		{
-			TiXmlNode* sphereNode = trianglesNode->FirstChild("triangle");
+			TiXmlNode* sphereNode = spheresNode->FirstChild("sphere");
 			while (sphereNode)
 			{
 				Sphere* sphere = new Sphere();
