@@ -8,7 +8,12 @@ public:
 	Vec3 gaze;
 	Vec3 up;
 	float left,right,bottom,top, distance;
+
+	int imageWidth;
+	int imageHeight;
 	
+	void read(TiXmlNode* node);
+
 	private:
 	
 };

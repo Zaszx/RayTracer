@@ -5,6 +5,8 @@
 
 #include <string>
 #include <vector>
+#include "String.h"
+#include "Camera.h"
 using namespace std;
 
 class Object;
@@ -17,6 +19,7 @@ public:
 	~Scene();
 
 	void read(string xmlPath);
+	void render(const Camera& camera, const String& outputFilePath) const;
 
 private:
 

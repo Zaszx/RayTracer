@@ -20,12 +20,12 @@ void Vec3::operator=(const Vec3& rhs)
 	this->z = rhs.z;
 }
 
-float Vec3::lengthSquared()
+float Vec3::lengthSquared() const
 {
 	return (x*x + y*y + z*z);
 }
 
-float Vec3::length()
+float Vec3::length() const
 {
 	return sqrt(x*x + y*y + z*z);
 }
@@ -38,19 +38,19 @@ void Vec3::normalize()
 	z = z / len;
 }
 
-Vec3 Vec3::operator*(float f)
+Vec3 Vec3::operator*(const float& f) const
 {
 	Vec3 hebele(x*f, y*f, z*f);
 	return hebele;
 }
 
-Vec3 Vec3::operator+(const Vec3& rhs)
+Vec3 Vec3::operator+(const Vec3& rhs) const
 {
 	Vec3 hebele(x + rhs.x, y + rhs.y, z + rhs.z);
 	return hebele;
 }
 
-Vec3 Vec3::operator-(const Vec3& rhs)
+Vec3 Vec3::operator-(const Vec3& rhs) const
 {
 	Vec3 hebele(x - rhs.x, y - rhs.y, z - rhs.z);
 	return hebele;
