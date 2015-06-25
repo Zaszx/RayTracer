@@ -10,7 +10,7 @@ class Triangle: public Object
 {
 public:
 	Triangle();
-	virtual bool intersects(const Ray& ray, float& distance, Vec3& point);
+	virtual bool intersects(const Ray& ray, float* distance = nullptr, Vec3* point = nullptr) override;
 	void read(TiXmlNode* node);
 	Vec3 coords[3];
 

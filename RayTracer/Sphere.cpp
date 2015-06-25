@@ -1,7 +1,7 @@
 #include "CommonIncludes.h"
 #include "Sphere.h"
 
-bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
+bool Sphere::intersects(const Ray& ray, float* distance /*= nullptr*/, Vec3* point /*= nullptr*/)
 {
 	Vec3 d,e,c;
 	e = ray.getOrigin();
@@ -22,28 +22,37 @@ bool Sphere::intersects(const Ray& ray, float& distance, Vec3& point)
 		solutions[0] = ((d * -1).dot(e-c) + sqrt(disc)) / d.dot(d);
 		solutions[1] = ((d * -1).dot(e-c) - sqrt(disc)) / d.dot(d);
 		Vec3 dir = ray.getDirection();
+		float intersectionDistance;
+		Vec3 intersectionPoint;
 		if(solutions[0] >= 0 && solutions[0] < solutions[1])
 		{
-			distance = solutions[0];
-			Vec3 iteration(distance*dir.x, distance*dir.y, distance*dir.z);
-			point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
-			normal = point - position;
-			normal.normalize();
-			return true;
+			intersectionDistance = solutions[0];
 		}
 		else if(solutions[1] >= 0)
 		{
-			distance = solutions[1];
-			Vec3 iteration(distance*dir.x, distance*dir.y, distance*dir.z);
-			point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
-			normal = point - position;
-			normal.normalize();
-			return true;
+			intersectionDistance = solutions[1];
 		}
 		else
 		{
 			return false;
 		}
+
+		Vec3 iteration(intersectionDistance*dir.x, intersectionDistance*dir.y, intersectionDistance*dir.z);
+		intersectionPoint = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
+		normal = intersectionPoint - position;
+		normal.normalize();
+
+		if (distance)
+		{
+			*distance = intersectionDistance;
+		}
+		if (point)
+		{
+			*point = intersectionPoint;
+		}
+
+		return true;
+
 	}
 }
 

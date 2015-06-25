@@ -6,7 +6,7 @@ Triangle::Triangle()
 {
 }
 
-bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
+bool Triangle::intersects(const Ray& ray, float* distance /*= nullptr*/, Vec3* point /*= nullptr*/)
 {
 	float a,b,c,d,e,f,g,h,i,j,k,l;
 	Vec3 dir = ray.getDirection();
@@ -29,17 +29,27 @@ bool Triangle::intersects(const Ray& ray, float& distance, Vec3& point)
 	beta = ( j*(e*i-h*f) + k*(g*f-d*i) + l*(d*h-e*g) ) / m;
 	gama = ( i*(a*k-j*b) + h*(j*c-a*l) + g*(b*l-k*c) ) / m;
 	t = 0- (f*(a*k-j*b) + e*(j*c-a*l) + d*(b*l-k*c)) / m;
-	distance = t;
+
+	if (distance)
+	{
+		*distance = t;
+	}
 	Vec3 iteration(t*dir.x, t*dir.y, t*dir.z);
-	point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
-	if(gama<=0 || gama>=1)
+	if (point)
+	{
+		*point = Vec3(ray.getOrigin().x + iteration.x, ray.getOrigin().y + iteration.y, ray.getOrigin().z + iteration.z);
+	}
+
+	if (gama <= 0 || gama >= 1)
+	{
 		return false;
-	if(beta<=0 || beta>=1-gama)
+	}
+		
+	if (beta <= 0 || beta >= 1 - gama)
+	{
 		return false;
-	Vec3 edge1 = coords[1] - coords[0];
-	Vec3 edge2 = coords[2] - coords[1];
-	normal = edge1.cross(edge2);
-	normal.normalize();
+	}
+	
 	return true;
 }
 

@@ -11,7 +11,7 @@ class Sphere: public Object
 {
 public:
 	Sphere();
-	virtual bool intersects(const Ray& ray, float& distance, Vec3& point);
+	virtual bool intersects(const Ray& ray, float* distance = nullptr, Vec3* point = nullptr) override;
 	void read(TiXmlNode* node);
 	
 	Vec3 position;

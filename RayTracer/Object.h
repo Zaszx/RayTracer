@@ -14,7 +14,7 @@ class Object
 	Material* material;
 
 	Object();
-	virtual bool intersects(const Ray& ray, float& distance, Vec3& point) = 0;
+	virtual bool intersects(const Ray& ray, float* distance = nullptr, Vec3* point = nullptr) = 0;
 	Vec3 normal;
 	protected:
 	

@@ -25,6 +25,8 @@ private:
 
 	Vec3 traceRay(const Ray& ray, const Camera& camera, int depth = 0) const;
 
+	Vec3 calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest, const Camera &camera) const;
+
 	vector<Object*> objects;
 	vector<Light*> lights;
 

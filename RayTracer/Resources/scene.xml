@@ -1,4 +1,4 @@
-<scene backgroundColor = "60 60 60" ambientLight = "60 60 60" reflectionCount = "3">
+<scene backgroundColor = "60 60 60" ambientLight = "60 60 60" reflectionCount = "1">
 	<objects>
 		<triangles>
 			<triangle materialName = "Material1">
@@ -10,9 +10,9 @@
 			</triangle>
 			<triangle materialName = "Material1">
 				<vertexInfos>
-					<vertexInfo position = "200 300 200" />
+					<vertexInfo position = "350 250 150"/>
 					<vertexInfo position = "300 200 300" />
-					<vertexInfo position = "350 250 150" />
+					<vertexInfo position = "200 300 200"/>
 				</vertexInfos>
 			</triangle>
 		</triangles>
