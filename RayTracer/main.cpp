@@ -45,9 +45,9 @@ int main(int argc, char** argv)
 	string sceneXMLPath = sceneFolderPath + "scene.xml";
 	resourceManager.readMaterials(materialXMLPath);
 
-	Scene* scene = new Scene();
-	scene->read(sceneXMLPath);
-	readCamerasAndRender(scene);
+	Scene scene;
+	scene.read(sceneXMLPath);
+	readCamerasAndRender(&scene);
 
 	return 0;
 }

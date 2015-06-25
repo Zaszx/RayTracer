@@ -8,7 +8,17 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	for (int i = 0; i < objects.size(); i++)
+	{
+		delete objects[i];
+	}
+	objects.clear();
 
+	for (int i = 0; i < lights.size(); i++)
+	{
+		delete lights[i];
+	}
+	lights.clear();
 }
 
 void Scene::read(string xmlPath)
@@ -124,7 +134,9 @@ Vec3 Scene::traceRay(const Ray& ray, const Camera& camera, Vec3 reflectionFactor
 		Vec3 point;
 		if (objects[o]->intersects(ray, &dist, &point))
 		{
-			if (dist < minDist && dist < 100000)
+			if (dist < minDist &&
+				dist > camera.near &&
+				dist < camera.far)
 			{
 				minDist = dist;
 				nearest = objects[o];
@@ -201,7 +213,7 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 			Vec3 h = pointToCamera + lightRay.getDirection();
 			h.normalize();
 			float ndoth = nearest->normal.dot(h);
-			if (ndoth < 0) ndoth = 0;
+			ndoth = ndoth < 0 ? 0 : ndoth;
 
 			ndoth = pow(ndoth, nearest->material->specExp);
 

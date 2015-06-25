@@ -11,6 +11,7 @@ public:
 
 	int imageWidth;
 	int imageHeight;
+	float near, far;
 	
 	void read(TiXmlNode* node);
 

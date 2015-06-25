@@ -8,7 +8,11 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
-
+	for (int i = 0; i < materials.size(); i++)
+	{
+		delete materials[i];
+	}
+	materials.clear();
 }
 
 void ResourceManager::readMaterials(string xmlPath)

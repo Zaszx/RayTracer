@@ -14,5 +14,7 @@ void Camera::read(TiXmlNode* node)
 	TiXMLHelper::GetAttribute(node, "distance", &distance);
 	TiXMLHelper::GetAttribute(node, "imageWidth", &imageWidth);
 	TiXMLHelper::GetAttribute(node, "imageHeight", &imageHeight);
+	TiXMLHelper::GetAttribute(node, "near", &near);
+	TiXMLHelper::GetAttribute(node, "far", &far);
 }
 
