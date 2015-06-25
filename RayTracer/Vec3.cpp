@@ -1,3 +1,4 @@
+#include "CommonIncludes.h"
 #include "Vec3.h"
 #include "math.h"
 
@@ -42,8 +43,8 @@ void Vec3::normalize()
 
 Vec3 Vec3::operator*(const float& f) const
 {
-	Vec3 hebele(x*f, y*f, z*f);
-	return hebele;
+	Vec3 value(x*f, y*f, z*f);
+	return value;
 }
 
 Vec3 Vec3::operator*(const Vec3& rhs) const
@@ -54,14 +55,14 @@ Vec3 Vec3::operator*(const Vec3& rhs) const
 
 Vec3 Vec3::operator+(const Vec3& rhs) const
 {
-	Vec3 hebele(x + rhs.x, y + rhs.y, z + rhs.z);
-	return hebele;
+	Vec3 value(x + rhs.x, y + rhs.y, z + rhs.z);
+	return value;
 }
 
 Vec3 Vec3::operator-(const Vec3& rhs) const
 {
-	Vec3 hebele(x - rhs.x, y - rhs.y, z - rhs.z);
-	return hebele;
+	Vec3 value(x - rhs.x, y - rhs.y, z - rhs.z);
+	return value;
 }
 
 Vec3 Vec3::cross(const Vec3& vect) const 
@@ -78,4 +79,12 @@ float Vec3::dot(const Vec3& rhs) const
 {
 	return (x * rhs.x + y*rhs.y + z*rhs.z);
 }
-	
+
+Vec3 Vec3::operator/(const float& f) const
+{
+	assert(f != 0);
+	Vec3 value(x / f, y / f, z / f);
+	return value;
+}
+
+

@@ -1,3 +1,0 @@
-<cameras>
-	<camera imageWidth = "1024" imageHeight = "1024" near = "1" far = "100000" position = "0 0 700" forward = "0 0 -1" up = "0 1 0" left = "-10" right = "10" bottom = "-10" top = "10" distance = "10" />
-</cameras>

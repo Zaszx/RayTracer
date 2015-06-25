@@ -124,7 +124,7 @@ Vec3 Scene::traceRay(const Ray& ray, const Camera& camera, int depth /*= 0*/) co
 		Vec3 point;
 		if (objects[o]->intersects(ray, &dist, &point))
 		{
-			if (dist < minDist)
+			if (dist < minDist && dist < 100000)
 			{
 				minDist = dist;
 				nearest = objects[o];
@@ -133,8 +133,7 @@ Vec3 Scene::traceRay(const Ray& ray, const Camera& camera, int depth /*= 0*/) co
 		}
 	}
 
-	bool backfaceCulling = nearest ? ray.getDirection().dot(nearest->normal) > 0 : false;
-	if (nearest && !backfaceCulling)
+	if (nearest)
 	{
 		resultColor = resultColor + calculateLighting(nearestPoint, ray, nearest, camera);
 
@@ -160,6 +159,7 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 
 	for (int l = 0; l < lights.size(); l++)
 	{
+		float lightDistanceToIntersection = (lights[l]->position - nearestPoint).length();
 		Vec3 lightDirection = lights[l]->position - nearestPoint;
 		lightDirection.normalize();
 
@@ -168,7 +168,10 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 
 		for (int o = 0; o < objects.size(); o++)
 		{
-			if (objects[o]->intersects(ray))
+			float intersectionDistance;
+			if (objects[o] != nearest && 
+				objects[o]->intersects(ray, &intersectionDistance) &&
+				intersectionDistance < lightDistanceToIntersection)
 			{
 				isInShadow = true;
 				break;
@@ -183,14 +186,13 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 			ndotl = ndotl < 0 ? 0 : ndotl;
 
 			float distanceToLightSquared = (nearestPoint - lights[l]->position).lengthSquared();
-			Vec3 lightEffectiveIntensity = lights[l]->intensity * (1.0f / PI * distanceToLightSquared);
+			Vec3 lightEffectiveIntensity = lights[l]->intensity / (4 * PI * distanceToLightSquared);
 
 			resultColor = resultColor + nearest->material->diffuse * lightEffectiveIntensity * ndotl;
 
 			// Specular Light
-			Vec3 pointToCamera = nearestPoint - camera.pos;
-			pointToCamera.normalize();
-			Vec3 h = pointToCamera + lightRay.getDirection();
+
+			Vec3 h = ray.getDirection() + lightRay.getDirection();
 			h.normalize();
 			float ndoth = nearest->normal.dot(h);
 			if (ndoth < 0) ndoth = 0;

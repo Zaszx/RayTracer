@@ -1,0 +1,34 @@
+<scene backgroundColor = "50 50 50" ambientLight = "20 20 20" reflectionCount = "3">
+	<objects>
+		<triangles>
+			<triangle materialName = "Material4">
+				<vertexInfos>
+					<vertexInfo position = "-10 -0.8 0" />
+					<vertexInfo position = "10 -0.8 0" />
+					<vertexInfo position = "-10 -0.8 -100" />
+				</vertexInfos>
+			</triangle>
+			<triangle materialName = "Material4">
+				<vertexInfos>
+					<vertexInfo position = "-10 -0.8 -100"/>
+					<vertexInfo position = "10 -0.8 0" />
+					<vertexInfo position = "10 -0.8 -100"/>
+				</vertexInfos>
+			</triangle>
+		</triangles>
+		<spheres>
+			<sphere materialName = "Material2" position = "0 -0.2 -17" radius = "0.6" />
+			<sphere materialName = "Material6" position = "0.5 -0.5 -15" radius = "0.3" />
+			<sphere materialName = "Material3" position = "1.0 -0.5 -16" radius = "0.3" />
+			<sphere materialName = "Material5" position = "-1.0 -0.5 -13" radius = "0.3" />
+			<sphere materialName = "Material6" position = "-0.8 -0.5 -12" radius = "0.3" />
+		</spheres>
+	</objects>
+	<lights>
+		<light position = "-4 4 -13" intensity = "200000 200000 200000" />
+		<light position = "4 4 -13" intensity = "100000 100000 100000" />
+		<light position = "0 1 -7" intensity = "100000 100000 100000" />
+	</lights>
+</scene>
+
+

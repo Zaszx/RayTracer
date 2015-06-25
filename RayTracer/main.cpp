@@ -3,15 +3,16 @@
 
 #include "CommonIncludes.h"
 
-const string defaultSceneXMLPath = "Resources/scene.xml";
-const string defaultMaterialXMLPath = "Resources/materials.xml";
-const string defaultCameraXMLPath = "Resources/cameras.xml";
+const string defaultSceneFolderPath = "Resources/Scene2/";
+
+string sceneFolderPath;
 
 ResourceManager resourceManager;
 
 void readCamerasAndRender(const Scene* scene)
 {
-	TiXmlDocument xmlDocument(defaultCameraXMLPath.c_str());
+	string cameraXMLPath = sceneFolderPath + "cameras.xml";
+	TiXmlDocument xmlDocument(cameraXMLPath.c_str());
 	bool success = xmlDocument.LoadFile();
 	assert(success);
 
@@ -25,19 +26,27 @@ void readCamerasAndRender(const Scene* scene)
 		Camera camera;
 		camera.read(cameraNode);
 		char fileName[512];
-		sprintf(fileName, "render_%d.ppm", cameraIndex);
+		sprintf(fileName, "%srender_%d.ppm", sceneFolderPath.c_str(), cameraIndex);
 
 		scene->render(camera, fileName);
 		cameraNode = cameraNode->NextSibling();
+		cameraIndex++;
 	}
 }
 
-int main()
+int main(int argc, char** argv)
 {
-	resourceManager.readMaterials(defaultMaterialXMLPath);
+	sceneFolderPath = defaultSceneFolderPath;
+	if (argc > 1)
+	{
+		sceneFolderPath = argv[1];
+	}
+	string materialXMLPath = sceneFolderPath + "materials.xml";
+	string sceneXMLPath = sceneFolderPath + "scene.xml";
+	resourceManager.readMaterials(materialXMLPath);
 
 	Scene* scene = new Scene();
-	scene->read(defaultSceneXMLPath);
+	scene->read(sceneXMLPath);
 	readCamerasAndRender(scene);
 
 	return 0;

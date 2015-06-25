@@ -49,6 +49,11 @@ bool Triangle::intersects(const Ray& ray, float* distance /*= nullptr*/, Vec3* p
 	{
 		return false;
 	}
+
+	if (ray.getDirection().dot(normal) < 0)
+	{
+		return false;
+	}
 	
 	return true;
 }
@@ -80,6 +85,6 @@ void Triangle::recomputeNormal()
 {
 	Vec3 edge1 = coords[1] - coords[0];
 	Vec3 edge2 = coords[2] - coords[1];
-	normal = edge1.cross(edge2);
+	normal = edge2.cross(edge1);
 	normal.normalize();
 }
