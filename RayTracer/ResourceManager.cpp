@@ -16,7 +16,7 @@ void ResourceManager::readMaterials(string xmlPath)
 	TiXmlDocument xmlDocument(xmlPath.c_str());
 	bool success = xmlDocument.LoadFile();
 	assert(success);
-
+	
 	TiXmlNode* materialsNode = xmlDocument.FirstChild("materials");
 	assert(materialsNode);
 

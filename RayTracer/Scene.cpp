@@ -170,7 +170,7 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 		{
 			float intersectionDistance;
 			if (objects[o] != nearest && 
-				objects[o]->intersects(ray, &intersectionDistance) &&
+				objects[o]->intersects(lightRay, &intersectionDistance) &&
 				intersectionDistance < lightDistanceToIntersection)
 			{
 				isInShadow = true;
@@ -191,12 +191,19 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 			resultColor = resultColor + nearest->material->diffuse * lightEffectiveIntensity * ndotl;
 
 			// Specular Light
-			Vec3 pointToCamera = camera.pos - nearestPoint;
+			Vec3 pointToCamera = nearestPoint - camera.pos;
 			pointToCamera.normalize();
 			Vec3 h = pointToCamera + lightRay.getDirection();
 			h.normalize();
 			float ndoth = nearest->normal.dot(h);
 			if (ndoth < 0) ndoth = 0;
+
+// 			Vec3 vectorToCamera = nearestPoint - camera.pos;
+// 			vectorToCamera.normalize();
+// 			Vec3 temp = lightRay.getDirection() - (nearest->normal * 2.0f * ndotl);
+// 			ndoth = temp.dot(vectorToCamera);
+// 			if (ndoth < 0) ndoth = 0;
+
 			pow(ndoth, nearest->material->specExp);
 
 			resultColor = resultColor + nearest->material->specular * lightEffectiveIntensity * ndoth;
