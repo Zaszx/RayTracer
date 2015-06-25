@@ -25,6 +25,7 @@
 		</spheres>
 	</objects>
 	<lights>
-		<light position = "0 -300 500" intensity = "100 100 100" />
+		<light position = "0 -300 500" intensity = "100000000 100000000 100000000" />
+		<light position = "0 0 300" intensity = "100000000 100000000 100000000" />
 	</lights>
 </scene>

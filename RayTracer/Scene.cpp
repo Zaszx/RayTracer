@@ -135,7 +135,6 @@ Vec3 Scene::traceRay(const Ray& ray, const Camera& camera, Vec3 reflectionFactor
 		if (objects[o]->intersects(ray, &dist, &point))
 		{
 			if (dist < minDist &&
-				dist > camera.near &&
 				dist < camera.far)
 			{
 				minDist = dist;
@@ -221,6 +220,6 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 
 		}
 	}
-
+	
 	return resultColor;
 }
