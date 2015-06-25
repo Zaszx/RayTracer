@@ -144,6 +144,11 @@ Vec3 Scene::traceRay(const Ray& ray, const Camera& camera, Vec3 reflectionFactor
 			Ray reflectionRay(nearestPoint, reflectionVector);
 			resultColor = resultColor + traceRay(reflectionRay, camera, reflectionFactor * nearest->material->reflection, depth + 1) * reflectionFactor;
 		}
+
+		if (depth == 0)
+		{
+			resultColor = resultColor + nearest->material->ambient * ambientLightColor;	
+		}
 	}
 	else if (depth == 0)
 	{
@@ -191,26 +196,19 @@ Vec3 Scene::calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest
 			resultColor = resultColor + nearest->material->diffuse * lightEffectiveIntensity * ndotl;
 
 			// Specular Light
-			Vec3 pointToCamera = nearestPoint - camera.pos;
+			Vec3 pointToCamera = camera.pos - nearestPoint;
 			pointToCamera.normalize();
 			Vec3 h = pointToCamera + lightRay.getDirection();
 			h.normalize();
 			float ndoth = nearest->normal.dot(h);
 			if (ndoth < 0) ndoth = 0;
 
-// 			Vec3 vectorToCamera = nearestPoint - camera.pos;
-// 			vectorToCamera.normalize();
-// 			Vec3 temp = lightRay.getDirection() - (nearest->normal * 2.0f * ndotl);
-// 			ndoth = temp.dot(vectorToCamera);
-// 			if (ndoth < 0) ndoth = 0;
-
-			pow(ndoth, nearest->material->specExp);
+			ndoth = pow(ndoth, nearest->material->specExp);
 
 			resultColor = resultColor + nearest->material->specular * lightEffectiveIntensity * ndoth;
 
 		}
 	}
 
-	resultColor = resultColor + nearest->material->ambient * ambientLightColor;	
 	return resultColor;
 }
