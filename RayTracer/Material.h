@@ -12,6 +12,7 @@ public:
 
 	String name;
 	void read(TiXmlNode* node);
+	Vec3 getReflectionRate(int depth);
 
 	int index;
 	Vec3 ambient;

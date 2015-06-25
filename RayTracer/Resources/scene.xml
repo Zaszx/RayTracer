@@ -1,4 +1,4 @@
-<scene backgroundColor = "60 60 60" ambientLight = "60 60 60" reflectionCount = "1">
+<scene backgroundColor = "60 60 60" ambientLight = "60 60 60" reflectionCount = "3">
 	<objects>
 		<triangles>
 			<triangle materialName = "Material1">

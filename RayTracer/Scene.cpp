@@ -133,20 +133,17 @@ Vec3 Scene::traceRay(const Ray& ray, const Camera& camera, int depth /*= 0*/) co
 		}
 	}
 
-	if (nearest)
+	bool backfaceCulling = nearest ? ray.getDirection().dot(nearest->normal) > 0 : false;
+	if (nearest && !backfaceCulling)
 	{
-		bool backfaceCulling = ray.getDirection().dot(nearest->normal) > 0;
-		if (!backfaceCulling)
-		{
-			resultColor = resultColor + calculateLighting(nearestPoint, ray, nearest, camera);
+		resultColor = resultColor + calculateLighting(nearestPoint, ray, nearest, camera);
 
-			if (depth != reflectionCount)
-			{
-				Vec3 reflectionVector = ray.getDirection() - nearest->normal * 2 * (ray.getDirection().dot(nearest->normal));
-				reflectionVector.normalize();
-				Ray reflectionRay(nearestPoint, reflectionVector);
-				resultColor = resultColor + traceRay(reflectionRay, camera, depth + 1) * nearest->material->reflection;
-			}
+		if (depth != reflectionCount)
+		{
+			Vec3 reflectionVector = ray.getDirection() - nearest->normal * 2 * (ray.getDirection().dot(nearest->normal));
+			reflectionVector.normalize();
+			Ray reflectionRay(nearestPoint, reflectionVector);
+			resultColor = resultColor + traceRay(reflectionRay, camera, depth + 1) * nearest->material->getReflectionRate(depth + 1);
 		}
 	}
 	else if (depth == 0)
