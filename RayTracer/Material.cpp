@@ -17,13 +17,3 @@ void Material::read(TiXmlNode* node)
 	TiXMLHelper::GetAttribute(node, "refractionRate", &refractionIndex);
 	TiXMLHelper::GetAttribute(node, "attenuation", &attenuation);
 }
-
-Vec3 Material::getReflectionRate(int depth)
-{
-	Vec3 result(1, 1, 1);
-	for (int i = 0; i < depth; i++)
-	{
-		result = result * reflection;
-	}
-	return result;
-}

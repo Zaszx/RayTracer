@@ -23,7 +23,7 @@ public:
 
 private:
 
-	Vec3 traceRay(const Ray& ray, const Camera& camera, int depth = 0) const;
+	Vec3 traceRay(const Ray& ray, const Camera& camera, Vec3 reflectionFactor, int depth = 0) const;
 
 	Vec3 calculateLighting(Vec3 nearestPoint, const Ray& ray, Object* nearest, const Camera &camera) const;
 
